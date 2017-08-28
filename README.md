@@ -29,7 +29,8 @@ You can also use `http://download.spiceworks.com/Spiceworks.exe` for the product
 
 ## Run the new image in a container
 
-`docker run -dit -p 80:80 -p 443:443 --name spiceworks desktop-app`
+`docker run -dit -p 80:80/tcp -p 443:443/tcp --name desktopapp --hostname desktopapp benbspiceworks/desktop-app-core
+`
 
 The container is launched in the background with interactive mode enabled, which means we can "attach" to the container's console.
 

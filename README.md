@@ -1,4 +1,4 @@
-# desktop-app
+# desktop-app-core
 
 Use docker to build a container that installs and runs the Spiceworks Desktop app.
 

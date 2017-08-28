@@ -19,9 +19,10 @@ ref. https://blog.sixeyed.com/how-to-dockerize-windows-applications/
 
 Ex. docker build command where Dockerfile is stored at c:\build\Dockerfile
 
-`docker build -t desktop-app c:\build`
+`docker build -t benbspiceworks/desktop-app c:\build --build-arg DOWNLOAD_URL="http://download.spiceworks.com/Spiceworks/beta/Spiceworks.exe"
+`
 
-After a successful build:
+You can also use `http://download.spiceworks.com/Spiceworks.exe` for the production release branch.
 
 ## View images 
 `docker images`

@@ -28,7 +28,7 @@ After a successful build:
 
 ## Run the new image in a container
 
-`docker run -dit -p 80:80 -p 443:443 --name spiceworks benbspiceworks/desktop-app`
+`docker run -dit -p 80:80 -p 443:443 --name spiceworks desktop-app`
 
 The container is launched in the background with interactive mode enabled, which means we can "attach" to the container's console.
 
@@ -42,7 +42,7 @@ Now any traffic to the Server 2016 VM will route through to internal services ru
 
 Be sure you have a "host only" network interface setup in the host VirtualBox configuration for your Server 2016 VM:
 
-Support > Test Env./Containers > Screen Shot 2017-08-28 at 11.23.46 AM.png
+![vm-netadapter]()
 
 Now, from the console of the Server 2016 VM, run ipconfig to find the VM interface's IP address for this host-only NIC.
 You can use the VM interface's IP address to access the container's web service (Spiceworks Desktop) from the host OS (macOS).

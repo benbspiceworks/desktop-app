@@ -45,10 +45,10 @@ Be sure you have a "host only" network interface setup in the host VirtualBox co
 
 ![vm-netadapter](https://github.com/benbspiceworks/desktop-app/raw/master/Screen%20Shot%202017-08-28%20at%2011.23.46%20AM.png)
 
-Now, from the console of the Server 2016 VM, run ipconfig to find the VM interface's IP address for this host-only NIC.
+Now, from the console of the Server 2016 VM, run `ipconfig` to find the VM interface's IP address for this host-only NIC.
 You can use the VM interface's IP address to access the container's web service (Spiceworks Desktop) from the host OS (macOS).
 
-macOS (host) → Server 2016 VM → container → Spiceworks Desktop app service
+  > macOS (host) → Server 2016 VM → container → Spiceworks Desktop app service
 
 My Server 2016 VM's host-only interface IP was 192.168.99.101. So I can access Spiceworks from http://192.168.99.101/ in Safari in macOS.
 

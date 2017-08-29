@@ -3,7 +3,7 @@
 Use docker to build a container that installs and runs the Spiceworks Desktop app.
 
 ## Initial Setup
-This can likely be done in any VirtualBox host, but in macOS/Sierra (10.12)
+This can likely be done in any VirtualBox host. In macOS/Sierra (10.12):
   * install latest VirtualBox
   * Create a 2016 Server VM within VirtualBox
 

@@ -11,16 +11,12 @@ In the Server 2016 VM:
   * Install latest Docker
   * Pull down Windows server core from docker:  
   `docker pull microsoft/windowsservercore` (this should be vanilla Server 2016 with .Net 4.5)
- 
-Note: looks like MSI requires WindowsServerCore, and can't be done with NanoServer. 
-ref. https://blog.sixeyed.com/how-to-dockerize-windows-applications/ 
 
 ## Example docker build command
 
 Ex. docker build command where Dockerfile is stored at c:\build\Dockerfile
 
-`docker build -t benbspiceworks/desktop-app c:\build --build-arg DOWNLOAD_URL="http://download.spiceworks.com/Spiceworks/beta/Spiceworks.exe"
-`
+`docker build -t benbspiceworks/desktop-app c:\build --build-arg DOWNLOAD_URL="http://download.spiceworks.com/Spiceworks/beta/Spiceworks.exe" --build-arg AGENT_AUTH_KEY_ENCRYP="actualEncryptedKey"`
 
 You can also use `http://download.spiceworks.com/Spiceworks.exe` for the production release branch.
 
@@ -61,7 +57,7 @@ You can use this command to execute arbitrary SQL commands against the database.
 
 For example, the below command will output a list of SQL records which should include the auth key record "remote_agent_key" because the container build process automatically sets the key to allow agents to checkin without going through the normal process of using the Desktop app web UI to set the key. 
 
-`docker exec desktopapp "C:\Program Files (x86)\Spiceworks\bin\sqlite3.exe" "C:\Program Files (x86)\Spiceworks\db\spiceworks_prod.db" "SELECT * FROM configuration WHERE name LIKE 'remote%';"`
+`docker exec desktopapp "C:\Program Files (x86)\Spiceworks\bin\sqlite3.exe" "C:\Program Files (x86)\Spiceworks\db\spiceworks_prod.db" "SELECT * FROM configuration WHERE name LIKE 'remote_agent%';"`
  
 ## Then attach to the console using
 `docker attach <dynamic name>`

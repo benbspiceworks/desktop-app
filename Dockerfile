@@ -2,11 +2,11 @@
 FROM microsoft/windowsservercore
 ARG DOWNLOAD_URL
 
-ADD $DOWNLOAD_URL C:\
-
 SHELL ["powershell", "-Command"]
 
 #silent install app
+#ADD $DOWNLOAD_URL C:\
+ADD Spiceworks.exe C:\
 RUN $args = \" /S \"; `
 Start-Process C:\Spiceworks.exe -Wait -ArgumentList $args;
 
@@ -17,6 +17,11 @@ New-ItemProperty -Path \"HKLM:\SOFTWARE\Wow6432Node\Spiceworks\" -Name \"SPICE_H
 #update app with new startup http/https ports
 RUN $args = \" httpdconf \"; `
 Start-Process \"C:\Program Files (x86)\Spiceworks\bin\spiceworks.exe\" -Wait -ArgumentList $args;
+
+#set agent auth key
+ADD ["set_agent_auth_key.rb", "C:/Program Files (x86)/Spiceworks/bin"]
+WORKDIR "C:\\Program Files (x86)\\Spiceworks\\bin"
+RUN Start-Process ruby.exe -Wait -NoNewWindow -ArgumentList set_agent_auth_key.rb;
 
 #startup app
 RUN Start-Service spiceworks;

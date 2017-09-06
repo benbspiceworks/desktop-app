@@ -18,7 +18,9 @@ Ex. docker build command where Dockerfile is stored at c:\build\Dockerfile
 
 `docker build -t benbspiceworks/desktop-app c:\build --build-arg DOWNLOAD_URL="http://download.spiceworks.com/Spiceworks/beta/Spiceworks.exe" --build-arg AGENT_AUTH_KEY_ENCRYP="actualEncryptedKey"`
 
-You can also use `http://download.spiceworks.com/Spiceworks.exe` for the production release branch.
+You can also use `http://download.spiceworks.com/Spiceworks.exe` for the production release branch. 
+
+Pull the encrypted key value from `configuration.name="remote_agent_key"` in /db/spiceworks_prod.db, after you've spun up an app and set the authorization key manually in the Inventory web UI. If you enter `spiceworks` to set the key in the Inventory web UI, your encrypted key will look something like `Tvbum4Xqk/cxxx/kTxxxxJAuSr8=`. You can also use the example command as is, and reset the key using the Inventory web UI later.
 
 ## View images 
 `docker images`

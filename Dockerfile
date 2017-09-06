@@ -1,6 +1,7 @@
 # escape=`
 FROM microsoft/windowsservercore
 ARG DOWNLOAD_URL
+ARG AGENT_AUTH_KEY_ENCRYP
 
 SHELL ["powershell", "-Command"]
 
@@ -21,7 +22,9 @@ RUN Start-Process spiceworks.exe -Wait -NoNewWindow -ArgumentList httpdconf;
 
 #set agent auth key
 ADD ["set_agent_auth_key.rb", "C:/Program Files (x86)/Spiceworks/bin"]
-RUN Start-Process ruby.exe -Wait -NoNewWindow -ArgumentList set_agent_auth_key.rb;
+RUN $rubyArgs = \"set_agent_auth_key.rb \" + $Env:AGENT_AUTH_KEY_ENCRYP; `
+echo $rubyArgs; `
+Start-Process ruby.exe -Wait -NoNewWindow -ArgumentList $rubyArgs;
 
 #startup app
 RUN Start-Service spiceworks;

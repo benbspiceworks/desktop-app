@@ -5,8 +5,8 @@ ARG DOWNLOAD_URL
 SHELL ["powershell", "-Command"]
 
 #silent install app
-#ADD $DOWNLOAD_URL C:\
-ADD Spiceworks.exe C:\
+ADD $DOWNLOAD_URL C:\
+#ADD Spiceworks.exe C:\
 RUN $args = \" /S \"; `
 Start-Process C:\Spiceworks.exe -Wait -ArgumentList $args;
 

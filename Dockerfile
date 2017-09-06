@@ -14,13 +14,13 @@ Start-Process C:\Spiceworks.exe -Wait -ArgumentList $args;
 RUN New-ItemProperty -Path \"HKLM:\SOFTWARE\Wow6432Node\Spiceworks\" -Name \"SPICE_PORT\" -Value \"80\" -PropertyType String -Force; `
 New-ItemProperty -Path \"HKLM:\SOFTWARE\Wow6432Node\Spiceworks\" -Name \"SPICE_HTTPS_PORT\" -Value \"443\" -PropertyType String -Force;
 
+WORKDIR "C:\\Program Files (x86)\\Spiceworks\\bin"
+
 #update app with new startup http/https ports
-RUN $args = \" httpdconf \"; `
-Start-Process \"C:\Program Files (x86)\Spiceworks\bin\spiceworks.exe\" -Wait -ArgumentList $args;
+RUN Start-Process spiceworks.exe -Wait -NoNewWindow -ArgumentList httpdconf;
 
 #set agent auth key
 ADD ["set_agent_auth_key.rb", "C:/Program Files (x86)/Spiceworks/bin"]
-WORKDIR "C:\\Program Files (x86)\\Spiceworks\\bin"
 RUN Start-Process ruby.exe -Wait -NoNewWindow -ArgumentList set_agent_auth_key.rb;
 
 #startup app

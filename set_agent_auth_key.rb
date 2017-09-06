@@ -1,6 +1,7 @@
 # encoding: utf-8
 #!/usr/bin/env ruby
 # Copyright © 2017 Spiceworks, Inc.  All Rights Reserved.  http://www.spiceworks.com
+AGENT_KEY = ARGV[0]
 $version = "1"
 def eputs(m); puts "Error: #{m}"; exit 1; end  # print error and exit
 def dbg(m); puts "Debug: #{m}" if $verbose; end  # print optional debug message
@@ -58,7 +59,7 @@ end
 
 #Changes to be made
 $log.info "Adding/updating remote agent key"
-insert_configuration_changes("Tvium5Xik/0eiD/kT8Tc0JAuSr8=", "remote_agent_key")
+insert_configuration_changes(AGENT_KEY, "remote_agent_key")
 $log.info "Done updating remote agent key"
 
 $log.info "All Finished!"

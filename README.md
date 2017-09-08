@@ -61,8 +61,5 @@ For example, the below command will output a list of SQL records which should in
 
 `docker exec desktopapp "C:\Program Files (x86)\Spiceworks\bin\sqlite3.exe" "C:\Program Files (x86)\Spiceworks\db\spiceworks_prod.db" "SELECT * FROM configuration WHERE name LIKE 'remote_agent%';"`
  
-## Then attach to the console using
-`docker attach <dynamic name>`
- 
-After running docker attach you'll have a cmd console. You can call powershell to get a PS console.
-You can detach and leave the container running using Ctrl+P , Ctrl+Q.
+## Check Desktop app logs
+`docker exec desktopapp powershell -command {cat "C:\Program Files (x86)\Spiceworks\log\production.log"}`

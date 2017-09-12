@@ -2,6 +2,8 @@
 FROM microsoft/windowsservercore
 ARG DOWNLOAD_URL
 ARG AGENT_AUTH_KEY_ENCRYP
+ARG HTTP_PORT
+ARG HTTPS_PORT
 
 SHELL ["powershell", "-Command"]
 
@@ -13,10 +15,10 @@ Start-Process C:\Spiceworks.exe -Wait -ArgumentList $args;
 RUN Remove-Item C:\Spiceworks.exe -Force;
 
 #set new http/https ports for app in registry, expose ports to docker
-RUN New-ItemProperty -Path \"HKLM:\SOFTWARE\Wow6432Node\Spiceworks\" -Name \"SPICE_PORT\" -Value \"80\" -PropertyType String -Force | out-null; `
-New-ItemProperty -Path \"HKLM:\SOFTWARE\Wow6432Node\Spiceworks\" -Name \"SPICE_HTTPS_PORT\" -Value \"443\" -PropertyType String -Force | out-null;
-EXPOSE 80
-EXPOSE 443
+RUN New-ItemProperty -Path \"HKLM:\SOFTWARE\Wow6432Node\Spiceworks\" -Name \"SPICE_PORT\" -Value \"$Env:HTTP_PORT\" -PropertyType String -Force | out-null; `
+New-ItemProperty -Path \"HKLM:\SOFTWARE\Wow6432Node\Spiceworks\" -Name \"SPICE_HTTPS_PORT\" -Value \"$Env:HTTPS_PORT\" -PropertyType String -Force | out-null;
+EXPOSE $HTTP_PORT
+EXPOSE $HTTPS_PORT
 
 #update app to startup using registry defined http/https ports
 WORKDIR "C:\\Program Files (x86)\\Spiceworks\\bin"

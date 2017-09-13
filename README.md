@@ -22,13 +22,23 @@ You can also use `http://download.spiceworks.com/Spiceworks.exe` for the product
 
 Pull the encrypted key value from `configuration.name="remote_agent_key"` in /db/spiceworks_prod.db, after you've spun up an app and set the authorization key manually in the Inventory web UI. If you enter `spiceworks` to set the key in the Inventory web UI, your encrypted key will look something like `Tvbum4Xqk/cxxx/kTxxxxJAuSr8=`. You can also use the example command as is, and reset the key using the Inventory web UI later.
 
-## View images 
+## View images
+
+Outputs a list of all container builds created on your host.
+
 `docker images`
 
 ## Run the new image in a container
 
-`docker run -dit -p 80:80/tcp -p 443:443/tcp --name desktopapp --hostname desktopapp benbspiceworks/desktop-app-core
-`
+Using `-dit` the container is launched in the background with interactive mode enabled, which means we can "attach" to the container's console, depending on its `ENTRYPOINT`.
+
+The `hostname` param allows us to set a DNS hostname that the other local containers can reference. 
+
+The second command allows you to run another Desktop app side by side with the first. In both containers Windows is running Spiceworks on ports 80/443, but you can access the second container from your host OS using ports 9675/9676. For container ↔ container communication, you differentiate based on hostname. So when setting up remote collector configuration both app instances are on ports 80/443, and use different hostnames.
+
+`docker run -dit -p 80:80/tcp -p 443:443/tcp --name desktopapp --hostname desktopapp benbspiceworks/desktop-app-core`
+
+`docker run -dit -p 9675:80/tcp -p 9676:443/tcp --name desktopapp2 --hostname desktopapp2 benbspiceworks/desktop-app-b2`
 
 The container is launched in the background with interactive mode enabled, which means we can "attach" to the container's console.
 
@@ -51,15 +61,25 @@ You can use the VM interface's IP address to access the container's web service 
 
 My Server 2016 VM's host-only interface IP was 192.168.99.101. So I can access Spiceworks from http://192.168.99.101/ in Safari in macOS.
 
-## Lookup the name of the container (its dynamic)
+## Lookup info and health status of containers
+
 `docker ps -a`
 
 ## Check Spiceworks db values
 You can use this command to execute arbitrary SQL commands against the database. 
 
-For example, the below command will output a list of SQL records which should include the auth key record "remote_agent_key" because the container build process automatically sets the key to allow agents to checkin without going through the normal process of using the Desktop app web UI to set the key. 
+Output a list of SQL records which should include the auth key record `remote_agent_key` because the container build process automatically sets the key to allow agents to checkin without going through the normal process of using the Desktop app web UI to set the key. 
 
 `docker exec desktopapp "C:\Program Files (x86)\Spiceworks\bin\sqlite3.exe" "C:\Program Files (x86)\Spiceworks\db\spiceworks_prod.db" "SELECT * FROM configuration WHERE name LIKE 'remote_agent%';"`
- 
-## Check Desktop app logs
-`docker exec desktopapp powershell -command {cat "C:\Program Files (x86)\Spiceworks\log\production.log"}`
+
+Run a SQLite query against the desktopapp container:
+
+`docker exec desktopapp "C:\Program Files (x86)\Spiceworks\bin\sqlite3.exe" "C:\Program Files (x86)\Spiceworks\db\spiceworks_prod.db" "SELECT * FROM configuration WHERE name LIKE 'remote_agent%';"`
+
+Get a powershell prompt in the desktopapp container:
+
+`docker exec desktopapp powershell`
+
+Tail Spiceworks app logs:
+
+`docker exec desktopapp powershell -command "Get-Content 'C:\Program Files (x86)\Spiceworks\log\production.log' -tail 10"`

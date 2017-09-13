@@ -16,7 +16,7 @@ In the Server 2016 VM:
 
 Ex. docker build command where Dockerfile is stored at c:\build\Dockerfile
 
-`docker build -t benbspiceworks/desktop-app c:\build --build-arg DOWNLOAD_URL="http://download.spiceworks.com/Spiceworks/beta/Spiceworks.exe" --build-arg AGENT_AUTH_KEY_ENCRYP="actualEncryptedKey"`
+`docker build -t benbspiceworks/desktop-app c:\build --build-arg DOWNLOAD_URL="http://download.spiceworks.com/Spiceworks/beta/Spiceworks.exe" --build-arg AGENT_AUTH_KEY_ENCRYP="actualEncryptedKey" --build-arg HTTP_PORT="80" --build-arg HTTPS_PORT="443"`
 
 You can also use `http://download.spiceworks.com/Spiceworks.exe` for the production release branch. 
 

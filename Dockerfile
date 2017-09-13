@@ -33,3 +33,12 @@ Start-Process ruby.exe -Wait -NoNewWindow -ArgumentList $rubyArgs;
 #startup and monitor app service, ref. https://github.com/MicrosoftDocs/Virtualization-Documentation/tree/master/windows-server-container-tools/Wait-Service
 ADD Wait-Service.ps1 C:\Wait-Service.ps1
 ENTRYPOINT powershell.exe -file c:\Wait-Service.ps1 -ServiceName spiceworks
+
+#web app responsive = container up/healthy
+HEALTHCHECK CMD powershell -command `  
+    try { `
+     $HTTP_PORT = $Env:HTTP_PORT; `
+     $response = iwr http://localhost:$HTTP_PORT -UseBasicParsing; `
+     if ($response.StatusCode -eq 200) { return 0} `
+     else {return 1}; `
+    } catch { return 1 }
